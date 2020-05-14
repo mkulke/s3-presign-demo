@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <input type="file" id="file" name="file">
+    <input onclick="upload()" type=submit value=Upload>
+    <span id="result"></span>
+  </body>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    var result = document.querySelector('#result');
+    function upload() {
+      var formData = new FormData();
+      var file = document.querySelector('#file');
+      formData.append('key', '{{ key }}');
+      formData.append('policy', '{{ policy }}');
+      formData.append('AWSAccessKeyId', '{{ aws_access_key_id }}');
+      formData.append('x-amz-security-token', '{{ x_amz_security_token }}');
+      formData.append('signature', '{{ signature }}');
+      formData.append('file', file.files[0]);
+      axios.post('{{ url }}', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+      }).then(function() {
+        document.getElementById("result").textContent = '👍';  
+      }).catch(function(err) {
+        document.getElementById("result").textContent = '👎';  
+        console.log(err);
+      });
+    }
+  </script>
+</html>
