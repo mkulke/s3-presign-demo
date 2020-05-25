@@ -2,7 +2,9 @@
 
 You have to have AWS rights set up properly on your localhost for this to work.
 
-## CORS
+## S3 Bucket
+
+### CORS
 
 The S3 Bucket needs a CORS policy configured for this to work.
 
@@ -16,7 +18,16 @@ The S3 Bucket needs a CORS policy configured for this to work.
 </CORSConfiguration>
 ```
 
-## Environment
+## Cloudformation
+
+```
+aws cloudformation deploy \
+  --template-file s3-bucket.yaml \
+  --stack-name some-stack \
+  --parameter-overrides BucketName=some-bucket
+```
+
+## Python Environment
 
 ```
 virtualenv -p python3 venv
@@ -32,4 +43,4 @@ FLASK_APP=s3-presign-demo.py flask run
 
 ## Run Client
 
-Open `http://localhost:5000/upload?path=some-path&bucket=some-bucket` in a browser.
+Open `http://localhost:5000/upload?path=some-path&bucket=some-bucket` in a browser. The chosen file will be uploaded to the specified `bucket` and `path`.

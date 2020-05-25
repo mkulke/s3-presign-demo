@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Description: >
+  S3 bucket with default encryption and CORS rules for presign upload
+
+Parameters:
+  BucketName:
+    Type: String
+    Description: Unique name for S3 Bucket
+
+Resources:
+  EncryptedS3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref BucketName
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+        - ServerSideEncryptionByDefault:
+            SSEAlgorithm: AES256
+      CorsConfiguration:
+        CorsRules:
+        - AllowedOrigins:
+          - http://localhost:5000
+          AllowedMethods:
+          - POST
+          AllowedHeaders:
+          - "*"
+    DeletionPolicy: Delete
